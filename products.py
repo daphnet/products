@@ -12,7 +12,6 @@
 # 大清單中有小清單，
 # [[n1, p1], [n2, p2], [n3,p3], [n4, p4]]
 
-
 # products = []
 # while True:
 #     name = input('Please enter product name: ')
@@ -47,6 +46,7 @@ while True:
     if name == 'q':
         break
     price = input('Please enter price: ')
+    price = int(price)
     # 直接把小清單放在append裏
     products.append([name, price])
 print(products)
@@ -60,4 +60,25 @@ for p in products:
 
 for p in products:
     print(p[0], 'price is', p[1])
+
+
+# 62 寫入檔案
+# 63 型別轉換提點
+# 64 寫入欄位名稱 + 編碼問題
+
+# 字串可以做 加 跟 乘 合併
+# 'abc' + '123' = 'abc123' # 加法常用
+# 'abc' * 3 = 'abcabcabc' # 乘法少用
+# 同類型資料才能做串接合併，
+# 所以如果前面有把price = input()轉換成整數資料型態，
+# 底下資料串接時寫入檔案時，就要再用str()轉回字串
+
+# with open('products.csv', 'w') as f:
+with open('products.csv', 'w', encoding='utf-8') as f:
+    # f.write('name,price\n')
+    f.write('商品,價格\n') # 欄位名稱變亂碼
+    for p in products:
+        f.write(p[0] + ',' + str(p[1]) + '\n')
+
+
 
