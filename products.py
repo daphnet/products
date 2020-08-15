@@ -51,5 +51,13 @@ while True:
     products.append([name, price])
 print(products)
 
+# p是小清單
+for p in products:
+    print(p)
 
+for p in products:
+    print(p[0])
+
+for p in products:
+    print(p[0], 'price is', p[1])
 
