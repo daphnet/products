@@ -73,7 +73,7 @@
 # 所以如果前面有把price = input()轉換成整數資料型態，
 # 底下資料串接時寫入檔案時，就要再用str()轉回字串
 
-# with open('products.csv', 'w') as f:
+# # with open('products.csv', 'w') as f:
 # with open('products.csv', 'w', encoding='utf-8') as f:
 #     # f.write('name,price\n')
 #     f.write('商品,價格\n') # 欄位名稱變亂碼
