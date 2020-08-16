@@ -40,26 +40,26 @@
 # print(products)
 
 # 上面程式還可以更簡潔，
-products = []
-while True:
-    name = input('Please enter product name: ')
-    if name == 'q':
-        break
-    price = input('Please enter price: ')
-    price = int(price)
-    # 直接把小清單放在append裏
-    products.append([name, price])
-print(products)
+# products = []
+# while True:
+#     name = input('Please enter product name: ')
+#     if name == 'q':
+#         break
+#     price = input('Please enter price: ')
+#     price = int(price)
+#     # 直接把小清單放在append裏
+#     products.append([name, price])
+# print(products)
 
-# p是小清單
-for p in products:
-    print(p)
+# # p是小清單
+# for p in products:
+#     print(p)
 
-for p in products:
-    print(p[0])
+# for p in products:
+#     print(p[0])
 
-for p in products:
-    print(p[0], 'price is', p[1])
+# for p in products:
+#     print(p[0], 'price is', p[1])
 
 
 # 62 寫入檔案
@@ -74,11 +74,45 @@ for p in products:
 # 底下資料串接時寫入檔案時，就要再用str()轉回字串
 
 # with open('products.csv', 'w') as f:
+# with open('products.csv', 'w', encoding='utf-8') as f:
+#     # f.write('name,price\n')
+#     f.write('商品,價格\n') # 欄位名稱變亂碼
+#     for p in products:
+#         f.write(p[0] + ',' + str(p[1]) + '\n')
+
+
+# 65/66 讀取檔案 + split()
+
+# 讀取檔案
+products = []
+with open('products.csv', 'r', encoding='utf-8') as f:
+    for line in f:
+        if '商品,價格' in line:
+            continue # 繼續，跳過此次不做，繼續做下一迴
+        # line.strip()，把換行符號及前後空格去除
+        # line.split(',')，遇到逗點就切割
+        name, price = line.strip().split(',')
+        products.append([name, price])
+print(products)
+
+# 讓使用者輸入
+while True:
+    name = input('Please enter product name: ')
+    if name == 'q':
+        break
+    price = input('Please enter price: ')
+    price = int(price)
+    # 直接把小清單放在append裏
+    products.append([name, price])
+print(products)
+
+# 印出所有購買紀錄
+for p in products:
+    print(p[0], 'price is', p[1])
+
+# 寫入檔案
 with open('products.csv', 'w', encoding='utf-8') as f:
     # f.write('name,price\n')
     f.write('商品,價格\n') # 欄位名稱變亂碼
     for p in products:
         f.write(p[0] + ',' + str(p[1]) + '\n')
-
-
-
