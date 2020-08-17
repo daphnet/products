@@ -118,19 +118,74 @@
 #         f.write(p[0] + ',' + str(p[1]) + '\n')
 
 
-# 67. 檢查檔案在不在
-# os.path.isfile('file_name')
-# 只給檔名->相對路徑，檢查目前目錄裏有沒有這個檔案
-# 給完整位址->絕對路徑
+# # 67. 檢查檔案在不在
+# # os.path.isfile('file_name')
+# # 只給檔名->相對路徑，檢查目前目錄裏有沒有這個檔案
+# # 給完整位址->絕對路徑
+
+# import os # import opreating system
+
+# # 讀取檔案
+# products = []
+
+# if os.path.isfile('products.csv'): # 檢查檔案是否存在
+#     print('yes, found the file.')
+#     with open('products.csv', 'r', encoding='utf-8') as f:
+#         for line in f:
+#             if '商品,價格' in line:
+#                 continue # 繼續，跳過此次不做，繼續做下一迴
+#             # line.strip()，把換行符號及前後空格去除
+#             # line.split(',')，遇到逗點就切割
+#             name, price = line.strip().split(',')
+#             products.append([name, price])
+#     print(products)
+
+# else:
+#     print('file cannot be found.')
+
+# # 讓使用者輸入
+# while True:
+#     name = input('Please enter product name: ')
+#     if name == 'q':
+#         break
+#     price = input('Please enter price: ')
+#     price = int(price)
+#     # 直接把小清單放在append裏
+#     products.append([name, price])
+# print(products)
+
+# # 印出所有購買紀錄
+# for p in products:
+#     print(p[0], 'price is', p[1])
+
+# # 寫入檔案
+# with open('products.csv', 'w', encoding='utf-8') as f:
+#     # f.write('name,price\n')
+#     f.write('商品,價格\n') # 欄位名稱變亂碼
+#     for p in products:
+#         f.write(p[0] + ',' + str(p[1]) + '\n')
+
+
+# 74 Refactor (程式重構) part 2
+# function的中心思想：只做一件事
 
 import os # import opreating system
 
-# 讀取檔案
-products = []
+# 原讀取檔案function其實做了兩件事，
+# 檢查檔案是否存在 及 讀取檔案
+# 不符合前述中心思想，加以改寫
+# 將讀取檔案function只留下開檔案的部分後
+# 檢查檔案是否存在區段只剩下一行if判斷
+# 將其放到主程式中即可
+# 先判斷檔案是否存在
+# 存在就執行呼叫4個function
+# 不存在就印出檔案不存在
 
-if os.path.isfile('products.csv'): # 檢查檔案是否存在
-    print('yes, found the file.')
-    with open('products.csv', 'r', encoding='utf-8') as f:
+# 讀取檔案
+def read_file(filename):
+# 把檔名設為參數，將products.csv全部取代為filename參數
+    products = []
+    with open(filename, 'r', encoding='utf-8') as f:
         for line in f:
             if '商品,價格' in line:
                 continue # 繼續，跳過此次不做，繼續做下一迴
@@ -138,30 +193,52 @@ if os.path.isfile('products.csv'): # 檢查檔案是否存在
             # line.split(',')，遇到逗點就切割
             name, price = line.strip().split(',')
             products.append([name, price])
-    print(products)
-
-else:
-    print('file cannot be found.')
+    return products
+    # 回傳products
 
 # 讓使用者輸入
-while True:
-    name = input('Please enter product name: ')
-    if name == 'q':
-        break
-    price = input('Please enter price: ')
-    price = int(price)
-    # 直接把小清單放在append裏
-    products.append([name, price])
-print(products)
+def user_input(products):
+    while True:
+        name = input('Please enter product name: ')
+        if name == 'q':
+            break
+        price = input('Please enter price: ')
+        price = int(price)
+        # 直接把小清單放在append裏
+        products.append([name, price])
+    print(products)
+    return products
 
 # 印出所有購買紀錄
-for p in products:
-    print(p[0], 'price is', p[1])
+def print_products(products):
+    for p in products:
+        print(p[0], 'price is', p[1])
 
 # 寫入檔案
-with open('products.csv', 'w', encoding='utf-8') as f:
-    # f.write('name,price\n')
-    f.write('商品,價格\n') # 欄位名稱變亂碼
-    for p in products:
-        f.write(p[0] + ',' + str(p[1]) + '\n')
+# 檔名和products需要投幣孔，所以要有兩個參數
+def write_file(filename, products):
+    with open(filename, 'w', encoding='utf-8') as f:
+        # f.write('name,price\n')
+        f.write('商品,價格\n') # 欄位名稱變亂碼
+        for p in products:
+            f.write(p[0] + ',' + str(p[1]) + '\n')
 
+
+# 只有這一段是主要執行程式，
+# 通常也會做成一個main function把主要執行的程式碼裝起來
+
+def main():
+    filename = 'products.csv'
+    if os.path.isfile(filename): # 檢查檔案是否存在
+        print('yes, found the file.')
+        products = read_file(filename)
+    else:
+        print('file cannot be found.')
+
+    products = user_input(products)
+    print_products(products)
+    write_file('products.csv', products)
+
+
+# 最後要執行main()，不然整個程式什麼都不會做
+main()
