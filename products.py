@@ -83,17 +83,65 @@
 
 # 65/66 讀取檔案 + split()
 
+# # 讀取檔案
+# products = []
+# with open('products.csv', 'r', encoding='utf-8') as f:
+#     for line in f:
+#         if '商品,價格' in line:
+#             continue # 繼續，跳過此次不做，繼續做下一迴
+#         # line.strip()，把換行符號及前後空格去除
+#         # line.split(',')，遇到逗點就切割
+#         name, price = line.strip().split(',')
+#         products.append([name, price])
+# print(products)
+
+# # 讓使用者輸入
+# while True:
+#     name = input('Please enter product name: ')
+#     if name == 'q':
+#         break
+#     price = input('Please enter price: ')
+#     price = int(price)
+#     # 直接把小清單放在append裏
+#     products.append([name, price])
+# print(products)
+
+# # 印出所有購買紀錄
+# for p in products:
+#     print(p[0], 'price is', p[1])
+
+# # 寫入檔案
+# with open('products.csv', 'w', encoding='utf-8') as f:
+#     # f.write('name,price\n')
+#     f.write('商品,價格\n') # 欄位名稱變亂碼
+#     for p in products:
+#         f.write(p[0] + ',' + str(p[1]) + '\n')
+
+
+# 67. 檢查檔案在不在
+# os.path.isfile('file_name')
+# 只給檔名->相對路徑，檢查目前目錄裏有沒有這個檔案
+# 給完整位址->絕對路徑
+
+import os # import opreating system
+
 # 讀取檔案
 products = []
-with open('products.csv', 'r', encoding='utf-8') as f:
-    for line in f:
-        if '商品,價格' in line:
-            continue # 繼續，跳過此次不做，繼續做下一迴
-        # line.strip()，把換行符號及前後空格去除
-        # line.split(',')，遇到逗點就切割
-        name, price = line.strip().split(',')
-        products.append([name, price])
-print(products)
+
+if os.path.isfile('products.csv'): # 檢查檔案是否存在
+    print('yes, found the file.')
+    with open('products.csv', 'r', encoding='utf-8') as f:
+        for line in f:
+            if '商品,價格' in line:
+                continue # 繼續，跳過此次不做，繼續做下一迴
+            # line.strip()，把換行符號及前後空格去除
+            # line.split(',')，遇到逗點就切割
+            name, price = line.strip().split(',')
+            products.append([name, price])
+    print(products)
+
+else:
+    print('file cannot be found.')
 
 # 讓使用者輸入
 while True:
@@ -116,3 +164,4 @@ with open('products.csv', 'w', encoding='utf-8') as f:
     f.write('商品,價格\n') # 欄位名稱變亂碼
     for p in products:
         f.write(p[0] + ',' + str(p[1]) + '\n')
+
